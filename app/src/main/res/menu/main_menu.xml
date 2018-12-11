@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/add_people"
+        android:title="添加联系人"/>
+    <item
+        android:id="@+id/clear_people"
+        android:title="清空联系人"/>
+    <item
+        android:id="@+id/import_people"
+        android:title="导入联系人"/>
+    <!--<item-->
+        <!--android:id="@+id/export_people"-->
+        <!--android:title="导出联系人"/>-->
+</menu>

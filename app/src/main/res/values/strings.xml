@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">电话本</string>
+    <string name="action_bar">50dp</string>
+</resources>
