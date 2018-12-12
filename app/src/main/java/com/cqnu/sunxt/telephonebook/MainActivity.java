@@ -6,10 +6,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.blankj.utilcode.constant.PermissionConstants;
@@ -36,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.rlv_main_activity) RecyclerView mRecyclerView;
     @BindView(R.id.button_add) ImageButton mButtonAdd;
+    @BindView(R.id.iv_search_icon_search_view) ImageView ivSearchIconSearchView;
+    @BindView(R.id.edt_search_view) EditText mSearchEditText;
+    @BindView(R.id.ll_search_view) LinearLayout llSearchView;
     private List<UploadContactBean> mContactList = new ArrayList<>();
     private ContactRVAdapter contactRVAdapter;
 
@@ -45,6 +53,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_layout);
         ButterKnife.bind(this);
         getPermission();
+        mSearchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 输入的内容变化的监听
+                if (mSearchEditText != null && mSearchEditText.hasFocus()) {
+                    String text = mSearchEditText.getText().toString();
+                    if (TextUtils.isEmpty(text)) {
+
+                        initRecyclerView(mContactList);
+                    } else {
+                        List<UploadContactBean> mapList = new ArrayList<>();
+                        for (UploadContactBean bean : mContactList) {
+                            if (bean.getName().toString().contains(text) || bean.getPhoneNumber().toString().contains(text)) {
+                                mapList.add(bean);
+                            }
+                        }
+                        initRecyclerView(mapList);
+                    }
+                }
+            }
+
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     public void getPermission() {
@@ -151,6 +191,9 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     ToastHelper.showShortMessage("手机通讯录已经导入");
                 }
+
+            case R.id.export_people:
+                ToastHelper.showShortMessage("通讯录已导出");
                 break;
             default:
                 break;
